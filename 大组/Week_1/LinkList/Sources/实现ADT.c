@@ -18,20 +18,28 @@ int N;//双向链表节点总数
 void print()//输出单链表全部节点 
 {
 	node*p = head1;int i;
-	printf("结果为：\n");
-	for(i=0;i<n;i++){
-		printf("节点%d的data值为%d\n",i+1,p->data);
-		p = p->next;
+	if(head1!=NULL){
+		printf("结果为：\n");
+		for(i=0;i<n;i++){
+			printf("节点%d的data值为%d\n",i+1,p->data);
+			p = p->next;
+		}		
+	}else{
+		printf("未构建单链表，请先构建链表\n");
 	}
 	system("pause");
 }
 void Print()//输出双向链表全部节点 
 {
 	Node*p = head2;int i;
-	printf("结果为：\n");
-	for(i=0;i<N;i++){
-		printf("节点%d的data值为%d\n",i+1,p->data);
-		p = p->next;
+	if(head2!=NULL){
+		printf("结果为：\n");
+		for(i=0;i<N;i++){
+			printf("节点%d的data值为%d\n",i+1,p->data);
+			p = p->next;
+		}		
+	}else{
+		printf("未构建双向链表，请先构建链表\n");	
 	}
 	system("pause");
 }
@@ -49,7 +57,8 @@ void createdan()//构建单链表
 	scanf("%d",&n);
 	for(i=0;i<n;i++){
 		p = (node* )malloc(sizeof(node));
-		p->data = 0;//默认值为0 
+		printf("请输入要第%d个节点的data值：",i+1);
+		scanf("%d",&p->data);
 		p->next = NULL;
 		if(i==0){//第一次head指向头节点 
 			head1 = p;
@@ -73,7 +82,8 @@ void createshuan()//构建双向链表
 	scanf("%d",&N);
 	for(i=0;i<N;i++){
 		p = (Node*)malloc(sizeof(Node));
-		p->data = 1;//默认为1
+		printf("请输入要第%d个节点的data值：",i+1);
+		scanf("%d",&p->data);
 		p->next= NULL;
 		if(i == 0){
 			p->prev = NULL;
@@ -96,10 +106,19 @@ void insertdan()//插入节点（单向链表）
 	}
 	int loc,i;node* q=head1;n++;
 	node* p = (node*)malloc(sizeof(node));
-	p->data = 1;
+	printf("请输入要插入节点的data值：");
+	scanf("%d",&p->data);
 	p->next = NULL;
-	printf("请输入要插入的位置：(位置可选择范围1~总结点数加1)");
-	scanf("%d",&loc);
+	while(1){
+		printf("请输入要插入的位置：(位置可选择范围1~总结点数加1)");
+		scanf("%d",&loc);
+		if(loc<=n+1&&loc>=1)
+			break;
+		else{
+			printf("输入位置不规范，位置可选择范围1~总结点数加1,请重新输入\n");
+			system("pause") ;
+		}
+	}
 	if (loc == 1){
 		p->next = head1;
 		head1 = p;
@@ -127,11 +146,20 @@ void insertshuan()
 	int loc,i;
 	Node* p = head2,*q;N++;
 	q = (Node*)malloc(sizeof(Node));
-	q->data = 0;
+	printf("请输入要插入节点的data值：");
+	scanf("%d",&q->data);
 	q->prev = NULL;
 	q->next = NULL;
-	printf("请输入要插入的位置（范围：1~节点总数+1）：");
-	scanf("%d",&loc);
+	while(1){
+			printf("请输入要插入的位置：(位置可选择范围1~总结点数加1)");
+			scanf("%d",&loc);
+			if(loc<=n+1&&loc>=1)
+				break;
+			else{
+				printf("输入位置不规范，位置可选择范围1~总结点数加1,请重新输入\n");
+				system("pause") ;
+			}
+		}
 	if(loc==1){//插入位置为头部 
 		q->next = head2;
 		head2->prev = q;
@@ -290,52 +318,41 @@ void exchange()
 }
 int main()
 {
-	int choice;
+	char choice[10];int flag = 0;
 	while (1){
 		system("cls");
 		menue();
-		scanf("%d",&choice);
-		switch (choice){
-			case 1:
+		scanf("%s",&choice);
+		if (strcmp(choice,"1")==0)
 				createdan();
-				break;
-			case 2:
+		else if(strcmp(choice,"2")==0)
 				insertdan();
-				break;
-			case 3:
+		else if(strcmp(choice,"3")==0)
 				deletedan();
-				break;
-			case 4:
+		else if(strcmp(choice,"4")==0)
 				findmid();
-				break;
-			case 5:
+		else if(strcmp(choice,"5")==0)
 				createshuan();
-				break;
-			case 6:
+		else if(strcmp(choice,"6")==0)
 				insertshuan();
-				break;
-			case 7:
+		else if(strcmp(choice,"7")==0)
 				deleteshuan();
-				break; 
-			case 8:
+		else if(strcmp(choice,"8")==0)
 				exchange(); 
-				break;
-			case 9:
+		else if(strcmp(choice,"9")==0)
 				print();
-				break;
-			case 10:
+		else if(strcmp(choice,"10")==0)
 				Print();
-				break; 
-			case 11:
+		else if(strcmp(choice,"11")==0){
 				printf("感谢使用！");
-				choice = -1;
+				flag = 1;
 				system("pause");
-				break;
-			default:
+		}
+		else{
 				printf("无效选择请重试...");
 				system("pause");
-		}		
-		if (choice == -1)
+		}	
+		if (flag == 1)
 			break;
 	}
 }
